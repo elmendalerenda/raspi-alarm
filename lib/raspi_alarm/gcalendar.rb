@@ -4,15 +4,16 @@ require 'googleauth/stores/file_token_store'
 
 require 'fileutils'
 
-require 'alarm'
+require 'raspi_alarm/configuration'
+require 'raspi_alarm/alarm'
 
 module RaspiAlarm
   class GCalendar
     OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
     APPLICATION_NAME = 'Raspi Alarm'
-    CLIENT_SECRETS_PATH = 'client_secret.json'
-    CREDENTIALS_PATH = File.join(Dir.home, '.credentials',
-                                 "raspi-alarm.yaml")
+    # CLIENT_SECRETS_PATH = RaspiAlarm.configuration.google_client_secret_json_path#)'client_secret.json'
+    # CREDENTIALS_PATH = RaspiAlarm.configuration.google_credentials_path#File.join(Dir.home, '.credentials',
+                                 # "raspi-alarm.yaml")
     SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
 
     def initialize(service=initialize_google_service)
@@ -47,10 +48,10 @@ module RaspiAlarm
     #
     # @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
     def authorize
-      FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
+      FileUtils.mkdir_p(File.dirname(RaspiAlarm.configuration.google_credentials_path))
 
-      client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
-      token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
+      client_id = Google::Auth::ClientId.from_file(RaspiAlarm.configuration.google_client_secret_json_path)
+      token_store = Google::Auth::Stores::FileTokenStore.new(file: RaspiAlarm.configuration.google_credentials_path)
       authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
       user_id = 'default'

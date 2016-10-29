@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'gcalendar'
+require 'test_helper'
 
 module Stubs
   def stub(definitions={})
@@ -30,6 +29,18 @@ class TestSetAlarm < Minitest::Test
     alarms = RaspiAlarm::GCalendar.new(service).fetch_upcoming
 
     assert_equal(now, alarms.first.time)
-    assert_equal(false, alarms.first.scheduled)
+  end
+
+  def test_integration_fetch_upcoming_alarms
+    skip
+    # copy your client_secret.json to the project root
+    RaspiAlarm.configure do |config|
+      config.google_client_secret_json_path = './client_secret.json'
+      config.google_credentials_path = File.join('./', '.credentials', "raspi-alarm.yaml")
+    end
+
+    RaspiAlarm::GCalendar.new.fetch_upcoming
+
+    pass
   end
 end
