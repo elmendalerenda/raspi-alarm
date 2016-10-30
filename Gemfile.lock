@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.4.0)
+    cronedit (0.3.0)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     google-api-client (0.9.19)
@@ -50,6 +51,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  cronedit
   google-api-client
   rake (~> 11.3)
 

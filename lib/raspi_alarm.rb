@@ -1,5 +1,6 @@
 require 'raspi_alarm/configuration'
 require 'raspi_alarm/gcalendar'
+require 'raspi_alarm/scheduler'
 
 module RaspiAlarm
   class << self
