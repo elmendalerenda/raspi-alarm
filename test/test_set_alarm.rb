@@ -63,12 +63,14 @@ class TestSetAlarm < Minitest::Test
     assert(RaspiAlarm::Scheduler.ls.empty?)
   end
 
-
   def test_auto_schedule_an_alarm
-    skip
+    an_alarm = RaspiAlarm::Alarm.new(Time.new(2002, 10, 31, 4, 3, 2))
+    scheduler = Minitest::Mock.new
+    scheduler.expect(:add, nil, [an_alarm])
+    calendar = stub(fetch_upcoming: [an_alarm])
 
+    RaspiAlarm::AutoScheduler.new(calendar, scheduler).run
 
+    scheduler.verify
   end
-
-
 end
