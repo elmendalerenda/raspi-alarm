@@ -1,7 +1,7 @@
 module RaspiAlarm
   class Alarm < Struct.new(:time)
     def id
-      time.to_i.to_s
+      time.to_s
     end
 
     def cron_time

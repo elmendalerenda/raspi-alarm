@@ -4,7 +4,7 @@ class TestSetAlarm < Minitest::Test
   include Stubs
 
   def test_fetch_upcoming_alarms
-    now = Time.now
+    now = DateTime.now
     events = Google::Apis::CalendarV3::Events.new.tap { |e|
       ev = Google::Apis::CalendarV3::Event.new
       date = Google::Apis::CalendarV3::EventDateTime.new
@@ -33,14 +33,14 @@ class TestSetAlarm < Minitest::Test
   end
 
   def test_convert_time_to_cron
-    an_alarm = RaspiAlarm::Alarm.new(Time.new(2002, 10, 31, 4, 3, 2))
+    an_alarm = RaspiAlarm::Alarm.new(DateTime.new(2002, 10, 31, 4, 3, 2))
 
     assert_equal('3 4 31 10 *', an_alarm.cron_time)
   end
 
   def test_integration_schedule_an_alarm
     skip
-    alarm = RaspiAlarm::Alarm.new(Time.new(2002, 10, 31, 4, 3, 2))
+    alarm = RaspiAlarm::Alarm.new(DateTime.new(2002, 10, 31, 4, 3, 2))
 
     RaspiAlarm::Scheduler.add(alarm)
 
@@ -52,7 +52,7 @@ class TestSetAlarm < Minitest::Test
   end
 
   def test_auto_schedule_an_alarm
-    an_alarm = RaspiAlarm::Alarm.new(Time.new(2002, 10, 31, 4, 3, 2))
+    an_alarm = RaspiAlarm::Alarm.new(DateTime.new(2002, 10, 31, 4, 3, 2))
     scheduler = Minitest::Mock.new
     scheduler.expect(:add, nil, [an_alarm])
     calendar = stub(fetch_upcoming: [an_alarm])
