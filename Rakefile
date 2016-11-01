@@ -1,3 +1,4 @@
+$LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
 require 'rake/testtask'
 
 Rake::TestTask.new do |t|
@@ -7,11 +8,12 @@ Rake::TestTask.new do |t|
 end
 
 task :ring do
+  require 'raspi_alarm'
+  require 'raspi_alarm/player'
   RaspiAlarm::Player.play_playlist
 end
 
 task :autoschedule do
-  $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
   require 'raspi_alarm'
   RaspiAlarm::AutoScheduler.new.run
 end
