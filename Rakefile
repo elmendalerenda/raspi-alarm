@@ -6,4 +6,10 @@ Rake::TestTask.new do |t|
   t.test_files = FileList['test/test*.rb']
 end
 
+task :ring do
+
+  RaspiAlarm::Player.play_playlist
+
+end
+
 task :default => :test

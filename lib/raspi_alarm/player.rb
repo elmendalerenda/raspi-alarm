@@ -3,7 +3,7 @@ require 'ruby-mpd'
 module RaspiAlarm
   class Player
     class << self
-      def play_playlist(name)
+      def play_playlist(name=RaspiAlarm.configuration.playlist_name)
         mpd = MPD.new
         mpd.connect
 

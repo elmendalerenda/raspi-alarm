@@ -20,3 +20,5 @@ module RaspiAlarm
     end
   end
 end
+
+require './config/config'
