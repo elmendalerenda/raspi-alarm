@@ -11,7 +11,7 @@ task :ring do
 end
 
 task :autoschedule do
-  LOAD_PATH.unshift File.expand_path('./lib', __FILE__)
+  $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
   require 'raspi_alarm'
   RaspiAlarm::AutoScheduler.new.run
 end
