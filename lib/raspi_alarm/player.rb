@@ -1,13 +1,14 @@
-require 'mpd-ruby'
+require 'ruby-mpd'
 
 module RaspiAlarm
   class Player
     class << self
       def play_playlist(name)
         mpd = MPD.new
+        mpd.connect
+
         clear_queue(mpd)
         load_songs(mpd, name)
-
         mpd.shuffle
         mpd.play
       end
