@@ -9,6 +9,12 @@ require 'raspi_alarm/alarm'
 
 module RaspiAlarm
   class GCalendar
+    class ClientSecretNotFound < StandardError
+      def initialize
+        super("We could not find the file #{RaspiAlarm.configuration.google_client_secret_json_path}, change config.rb to the correct path")
+      end
+    end
+
     OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
     APPLICATION_NAME = 'Raspi Alarm'
     SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
@@ -33,6 +39,8 @@ module RaspiAlarm
     private
 
     def initialize_google_service
+      raise ClientSecretNotFound.new unless File.exist?( RaspiAlarm.configuration.google_client_secret_json_path)
+
       Google::Apis::CalendarV3::CalendarService.new.tap { |s|
         s.client_options.application_name = APPLICATION_NAME
         s.authorization = authorize

@@ -18,5 +18,11 @@ task :autoschedule do
   RaspiAlarm::AutoScheduler.new.run
 end
 
+task :setup do
+  require 'raspi_alarm'
+  require 'raspi_alarm/setup'
+  RaspiAlarm::Setup.new.run
+end
+
 
 task :default => :test
