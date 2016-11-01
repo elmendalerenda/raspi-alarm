@@ -11,6 +11,7 @@ module RaspiAlarm
         load_songs(mpd, name)
         mpd.shuffle
         mpd.play
+        mpd.disconnect
       end
 
       private

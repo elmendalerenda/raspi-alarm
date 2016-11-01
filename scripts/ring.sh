@@ -3,4 +3,4 @@
 `rvm cron setup`
 
 cd "$1"
-rake ring >> output.txt
+rake ring > output.txt 2>&1

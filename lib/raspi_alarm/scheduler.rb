@@ -4,7 +4,7 @@ module RaspiAlarm
   class Scheduler
     class << self
       def add(alarm)
-        CronEdit::Crontab.Add(alarm.id, "#{alarm.cron_time} #{Dir.pwd}/scripts/ring.sh #{Dir.pwd}")
+        CronEdit::Crontab.Add(alarm.id, "#{alarm.cron_time} bash #{Dir.pwd}/scripts/ring.sh #{Dir.pwd}")
       end
 
       def ls

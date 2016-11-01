@@ -45,7 +45,7 @@ class TestSetAlarm < Minitest::Test
     RaspiAlarm::Scheduler.add(alarm)
 
     scheduled = RaspiAlarm::Scheduler.ls
-    assert_equal("3 4 31 10 * echo 'hello world'", scheduled[alarm.id])
+    assert_match(/3 4 31 10 \* bash .*ring.sh.*/, scheduled[alarm.id])
 
     RaspiAlarm::Scheduler.rm(alarm)
     assert(RaspiAlarm::Scheduler.ls.empty?)
