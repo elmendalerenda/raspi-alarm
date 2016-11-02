@@ -19,7 +19,9 @@ An alarm clock system for the raspberry pi
 	$> bundle install
 	```
 
- 3. Edit `config/config.rb` and set up your preferred configuration
+ 3. Add the `client_secret.json` file that you got from Google. Check the instructions in the [wiki](https://github.com/elmendalerenda/raspi-alarm/wiki#google-calendar-api-authentication)
+
+ 4. Edit `config/config.rb` and set up your preferred configuration
 	```ruby
      RaspiAlarm.configure do |config|
        config.google_client_secret_json_path = './client_secret.json'
@@ -28,13 +30,13 @@ An alarm clock system for the raspberry pi
      end 
  ```
  
- 4. Run the following command to finish the configuration
+ 5. Run the following command to finish the configuration
  
  ```bash
 	$> rake setup
 	```
 
- 5. Test that everything works: Schedule any event in you calendar and a song will be played.
+ 6. Test that everything works: Schedule any event in you calendar and a song will be played.
    
 
 ## Run the tests
@@ -48,3 +50,4 @@ For all the tests including the integration tests:
 $> rake all_tests
 ```
 
+[![Build Status](https://travis-ci.org/elmendalerenda/raspi-alarm.svg?branch=master)](https://travis-ci.org/elmendalerenda/raspi-alarm)
