@@ -3,8 +3,8 @@
 An alarm clock system for the raspberry pi
 Features:
 
- - Fetch the alarms from Google Calendar
-
+ - Schedule events from a Google Calendar into cron events
+ - Play a song from a playlist when the alarm go off
 
 ## Usage
 
@@ -14,6 +14,12 @@ $> bundle install
 
 ## Run the tests
 
+For unit tests: 
 ```bash
 $> rake test
 ```
+For all the tests including the integration tests: 
+```bash
+$> rake all_tests
+```
+

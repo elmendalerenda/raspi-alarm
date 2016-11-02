@@ -5,6 +5,13 @@ Rake::TestTask.new do |t|
   t.libs << "test"
   t.libs << "lib"
   t.test_files = FileList['test/test*.rb']
+  t.options = "-e/.*integration.*/"
+end
+
+Rake::TestTask.new(:all_tests) do |t|
+  t.libs << "test"
+  t.libs << "lib"
+  t.test_files = FileList['test/**/test*.rb']
 end
 
 task :ring do

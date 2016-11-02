@@ -5,7 +5,6 @@ class TestSetAlarm < Minitest::Test
   include Stubs
 
   def test_integration_prepare_gcalendar
-    skip
     scheduler = stub(configure: nil)
 
     RaspiAlarm.configure do |config|
@@ -21,7 +20,6 @@ class TestSetAlarm < Minitest::Test
   end
 
   def test_integration_prepare_autoscheduler
-    skip
     calendar = stub(fetch_upcoming: [])
 
     RaspiAlarm.configure do |config|
