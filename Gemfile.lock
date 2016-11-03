@@ -33,6 +33,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    minitest (5.9.1)
     multi_json (1.12.1)
     multipart-post (2.0.0)
     os (0.9.6)
@@ -54,6 +55,7 @@ PLATFORMS
 DEPENDENCIES
   cronedit
   google-api-client (~> 0.9)
+  minitest (~> 5.0)
   rake (~> 11.3)
   ruby-mpd (~> 0.3)
 
