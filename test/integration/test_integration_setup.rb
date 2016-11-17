@@ -29,8 +29,9 @@ class TestSetAlarm < Minitest::Test
     RaspiAlarm::Setup.new(calendar).run
 
     scheduled = RaspiAlarm::Scheduler.ls
-    assert_match(/10 \* \* \* \* .*bash .*autoschedule.*/, scheduled.first)
+    assert_match(/10 \* \* \* \* bash .*autoschedule.sh.*/, scheduled['autoschedule'])
 
-    RaspiAlarm::Scheduler.reset
+    CronEdit::Crontab.Remove('autoschedule')
+    assert(RaspiAlarm::Scheduler.ls.empty?)
   end
 end

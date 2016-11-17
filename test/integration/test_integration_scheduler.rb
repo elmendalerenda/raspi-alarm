@@ -22,33 +22,8 @@ class TestIntegrationScheduler < Minitest::Test
 
     RaspiAlarm::Scheduler.add(alarm)
 
-    alarms_scheduled = RaspiAlarm::Scheduler.ls_alarms
-    assert_match(/3 4 31 10 \* .*bash .*ring.*/, alarms_scheduled.first)
-  end
-
-  def test_integration_autoscheduler_always_present
-    RaspiAlarm.configure do |config|
-      config.calendar_check_period_in_minutes = 1
-    end
-    alarm = RaspiAlarm::Alarm.new(DateTime.new(2002, 10, 31, 4, 3, 2))
-
-    RaspiAlarm::Scheduler.add(alarm)
-
-    autoschedule_scheduled = RaspiAlarm::Scheduler.ls.select { |task| task =~ /1 \* \* \* \* .*bash .*autoschedule.*/ }
-    refute_nil(autoschedule_scheduled)
-  end
-
-  def test_integration_add_autoschedule
-    RaspiAlarm.configure do |config|
-      config.calendar_check_period_in_minutes = 1
-    end
-
-    RaspiAlarm::Scheduler.add_autoschedule
-
     scheduled = RaspiAlarm::Scheduler.ls
-
-    assert_match(/1 \* \* \* \* .*bash .*autoschedule.*/, scheduled.first)
-    assert_equal(1, scheduled.size)
+    assert_match(/3 4 31 10 \* bash .*ring.sh.*/, scheduled[alarm.id])
   end
 
   def test_integration_remove_old_alarms
@@ -58,8 +33,8 @@ class TestIntegrationScheduler < Minitest::Test
     new_alarm = RaspiAlarm::Alarm.new(DateTime.new(2003, 10, 31, 4, 3, 2))
     RaspiAlarm::Scheduler.add(new_alarm)
 
-    scheduled = RaspiAlarm::Scheduler.ls_alarms
-    assert_equal(1, scheduled.size)
+    scheduled = RaspiAlarm::Scheduler.ls
+    assert_equal(1, scheduled.keys.size)
   end
 
   def test_integration_avoid_duplicates
@@ -67,7 +42,7 @@ class TestIntegrationScheduler < Minitest::Test
     RaspiAlarm::Scheduler.add(RaspiAlarm::Alarm.new(unique_date))
     RaspiAlarm::Scheduler.add(RaspiAlarm::Alarm.new(unique_date))
 
-    scheduled = RaspiAlarm::Scheduler.ls_alarms
-    assert_equal(1, scheduled.size)
+    scheduled = RaspiAlarm::Scheduler.ls
+    assert_equal(1, scheduled.keys.size)
   end
 end

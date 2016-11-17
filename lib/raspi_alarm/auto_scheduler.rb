@@ -12,7 +12,7 @@ module RaspiAlarm
     end
 
     def self.configure
-      RaspiAlarm::Scheduler.add_autoschedule
+      CronEdit::Crontab.Add("autoschedule", "#{RaspiAlarm.configuration.calendar_check_period_in_minutes} * * * * bash #{Dir.pwd}/scripts/autoschedule.sh #{Dir.pwd}")
     end
   end
 end
