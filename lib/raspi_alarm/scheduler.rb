@@ -1,33 +1,50 @@
-require 'cronedit'
+require 'whenever'
 
 module RaspiAlarm
   class Scheduler
     class << self
       def add(alarm)
-        rm_old(alarm)
-        CronEdit::Crontab.Add(alarm.id, "#{alarm.cron_time} bash #{Dir.pwd}/scripts/ring.sh #{Dir.pwd}")
+        write_schedule(autoschedule_cron_line, alarm_cron_line(alarm))
+      end
+
+      def add_autoschedule
+        write_schedule(autoschedule_cron_line)
       end
 
       def ls
-        CronEdit::Crontab.List
+        %x[crontab -l].split("\n").reject{ |s| s.start_with?("#") || s.empty? }
       end
 
-      def rm(alarm)
-        rm_id(alarm.id)
+      def ls_alarms
+        ls.select { |task| task =~ /.*ring.*/ }
       end
 
       def reset
-        CronEdit::Crontab.new.clear!
+        begin
+          Whenever::CommandLine.execute(clear: true)
+        rescue SystemExit
+        end
       end
 
       private
 
-      def rm_old(alarm)
-        ls.select { |id,_| id < alarm.id}.each { |id,v| rm_id(id) }
+      def autoschedule_cron_line
+        "every '#{RaspiAlarm.configuration.calendar_check_period_in_minutes} * * * *' do rake 'autoschedule' end"
       end
 
-      def rm_id(id)
-        CronEdit::Crontab.Remove(id)
+      def alarm_cron_line(alarm)
+        "every '#{alarm.cron_time}' do rake 'ring' end"
+      end
+
+      def write_schedule(*lines)
+        open('config/schedule.rb', 'w') do |f|
+          lines.each { |line| f.puts line }
+        end
+
+        begin
+          Whenever::CommandLine.execute(update: true)
+        rescue SystemExit
+        end
       end
     end
   end
