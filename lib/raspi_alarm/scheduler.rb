@@ -5,7 +5,7 @@ module RaspiAlarm
     class << self
       def add(alarm)
         rm_old(alarm)
-        CronEdit::Crontab.Add(alarm.id, "#{alarm.cron_time} bash #{Dir.pwd}/scripts/ring.sh #{Dir.pwd}")
+        CronEdit::Crontab.Add(alarm.id, "#{alarm.cron_time} bash #{Dir.pwd}/scripts/ring.sh")
       end
 
       def ls
