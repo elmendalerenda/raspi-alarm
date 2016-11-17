@@ -25,6 +25,18 @@ class TestScheduler< Minitest::Test
     assert_equal('3 4 31 10 *', an_alarm.cron_time)
   end
 
+  def test_validate_scheduler_config
+    RaspiAlarm.configure do |config|
+      config.calendar_check_period_in_minutes = 0
+    end
+
+    exception = assert_raises {
+      RaspiAlarm::Scheduler.add_autoschedule
+    }
+
+    assert_kind_of(RaspiAlarm::Scheduler::InvalidPeriod, exception)
+  end
+
   def test_auto_schedule_an_alarm
     an_alarm = RaspiAlarm::Alarm.new(DateTime.new(2002, 10, 31, 4, 3, 2))
     scheduler = Minitest::Mock.new

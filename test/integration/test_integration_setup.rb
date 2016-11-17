@@ -28,10 +28,10 @@ class TestSetAlarm < Minitest::Test
       config.calendar_check_period_in_minutes = 10
     end
 
-    RaspiAlarm::Setup.new(calendar, RaspiAlarm::AutoScheduler, tasks).run
+    RaspiAlarm::Setup.new(calendar, RaspiAlarm::AutoScheduler.new(calendar), tasks).run
 
     scheduled = RaspiAlarm::Scheduler.ls
-    assert_match(/10 \* \* \* \* bash .*autoschedule.sh.*/, scheduled['autoschedule'])
+    assert_match(/0,10,20,30,40,50 \* \* \* \* bash .*autoschedule.sh.*/, scheduled['autoschedule'])
 
     CronEdit::Crontab.Remove('autoschedule')
     assert(RaspiAlarm::Scheduler.ls.empty?)

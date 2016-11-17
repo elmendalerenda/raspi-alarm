@@ -1,7 +1,7 @@
 require 'raspi_alarm/tasks'
 module RaspiAlarm
   class Setup
-    def initialize(calendar=RaspiAlarm::GCalendar.new, scheduler=RaspiAlarm::AutoScheduler, tasks=RaspiAlarm::Tasks)
+    def initialize(calendar=RaspiAlarm::GCalendar.new, scheduler=RaspiAlarm::AutoScheduler.new, tasks=RaspiAlarm::Tasks)
       @calendar = calendar
       @scheduler = scheduler
       @tasks = tasks
